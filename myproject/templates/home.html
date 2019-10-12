@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row text-center">
+  <div class="col">
+    <h4 class="decorated"><span>产品</span></h4>
+    <button type="button" class="btn btn-outline-dark btn-sm float-left">添加</button>
+  </div>
+</div>
+<div class="row my-3">
+  <div class="col-sm-4">
+    <div class="card" style="height: 180px">
+      <div class="card-body" style="padding: 10px;">
+        <div class="row">
+            <div class="col">
+              <p class="float-left mt-2">电饭煲</p>
+              <div class="dropdown float-right">
+                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  O
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="#">Delete</a>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col text-center">
+            <h1>15</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card" style="height: 180px">
+      <div class="card-body">
+        榨汁机
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card" style="height: 180px">
+      <div class="card-body">
+        净水器
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
