@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">主页</a></li>
+      <li class="breadcrumb-item active" aria-current="page">品类XXX</li>
+    </ol>
+  </nav>
+  <div class="card">
+    {% include 'products/_header.html' with active='category_photos' %}
+    <div class="card-body">
+      <div class="my-4">
+        <button type="button" class="btn btn-outline-dark btn-sm">新增型号</button>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 col-md-3 my-2">
+          <a href="#">
+            <img border="0" alt="photo album" src="logo_w3s.gif" width="180" height="180">
+          </a>
+        <div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,17 +1,11 @@
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb bg-transparent">
-    <li class="breadcrumb-item"><a href="{% url 'home' %}">主页</a></li>
-    <li class="breadcrumb-item active" aria-current="page">电饭煲</li>
-  </ol>
-</nav>
-<div class="card">
-  <div class="card-header bg-white">
-    <ul class="nav nav-tabs card-header-tabs">
-      <li class="nav-item">
-        <a class="nav-link {% if active == 'product_list' %} active{% endif %}" href="{% url 'products:product_list' %}">产品库</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link {% if active == 'product_photos' %} active{% endif %}" href="{% url 'products:product_photos' %}">图片库</a>
-      </li>
-    </ul>
-  </div>
+
+<div class="card-header bg-white">
+  <ul class="nav nav-tabs card-header-tabs">
+    <li class="nav-item">
+      <a class="nav-link {% if active == 'category_products' %} active{% endif %}" href="{% url 'products:category_products' category.pk %}">产品库</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if active == 'category_photos' %} active{% endif %}" href="{% url 'products:category_photos' category.pk %}">图片库</a>
+    </li>
+  </ul>
+</div>

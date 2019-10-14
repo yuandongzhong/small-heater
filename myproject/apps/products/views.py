@@ -1,13 +1,28 @@
-from django.shortcuts import render
+from django.db.models import Count
+from django.shortcuts import get_object_or_404, render
+
+from .models import Category, Product
 
 
 def home(request):
-    return render(request, 'home.html')
+    categories = Category.objects.annotate(
+        number_of_products=Count('products'))
+    return render(request, 'home.html', {'categories': categories})
 
 
-def product_list(request):
-    return render(request, 'products/product_list.html')
+def category_products(request, category_id):
+    category = get_object_or_404(Category, pk=category_id)
+    products = category.products.all()
+    return render(request, 'products/category_products.html', {'category': category, 'products': products})
 
 
-def product_photos(request):
-    return render(request, 'products/product_photos.html')
+def category_photos(request, category_id):
+    category = get_object_or_404(Category, pk=category_id)
+    products = category.products.all()
+    return render(request, 'products/category_photos.html', {'category': category, 'products': products})
+
+
+def product_photos(request, category_id, product_id):
+    product = get_object_or_404(Product, pk=category_id)
+    photos = product.photos.all()
+    return render(request, 'products/product_photos.html', {'photos': photos})
