@@ -16,11 +16,12 @@
       {% comment %} <div class="my-4">
         <button type="button" class="btn btn-outline-dark btn-sm">新增型号</button>
       </div> {% endcomment %}
-      <div class="row">
+      <div class="row mt-3">
         {% for product in products %}
-          <div class="col-sm-4 col-md-3 my-2">
+          <div class="col-sm-4 col-md-3 my-2 d-flex justify-content-center">
             <a href="{% url 'products:product_photos' category.pk product.pk %}">
-              <img border="0" alt="{{ product.model_number }}" src="{% get_cover_photo_url product product.model_number %}" width="180" height="180">
+              <img border="0" alt="{{ product.model_number }}" src="{% get_cover_photo_url product product.model_number %}" width="160" height="160">
+              <p class="d-flex justify-content-center mt-3">{{ product.model_number }}</p>
             </a>
           </div>
         {% endfor %}
