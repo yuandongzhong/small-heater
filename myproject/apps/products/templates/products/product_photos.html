@@ -5,15 +5,15 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb bg-transparent">
     <li class="breadcrumb-item"><a href="{% url 'home' %}">主页</a></li>
-    <li class="breadcrumb-item"><a href="#">品类XXX</a></li>
-    <li class="breadcrumb-item active" aria-current="page">图片库</li>
+    <li class="breadcrumb-item"><a href="{% url 'products:category_photos' category.id %}">{{ category.title }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ product.model_number }}</li>
   </ol>
 </nav>
 
 <div class="card">
   <div class="card-body">
     <button type="button" class="btn btn-outline-dark btn-sm float-right">新增图片</button>
-    <h4>型号： XXX</h4>
+    <h4>{{ product.model_number }}</h4>
     <hr>
       <div class="row">
       {% for photo in photos %}

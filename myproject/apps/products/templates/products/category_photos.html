@@ -19,7 +19,7 @@
       <div class="row">
         {% for product in products %}
           <div class="col-sm-4 col-md-3 my-2">
-            <a href="#">
+            <a href="{% url 'products:product_photos' category.pk product.pk %}">
               <img border="0" alt="{{ product.model_number }}" src="{% get_cover_photo_url product product.model_number %}" width="180" height="180">
             </a>
           </div>

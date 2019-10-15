@@ -23,6 +23,7 @@ def category_photos(request, category_id):
 
 
 def product_photos(request, category_id, product_id):
-    product = get_object_or_404(Product, pk=category_id)
+    category = get_object_or_404(Category, pk=category_id)
+    product = get_object_or_404(Product, pk=product_id)
     photos = product.photos.all()
-    return render(request, 'products/product_photos.html', {'photos': photos})
+    return render(request, 'products/product_photos.html', {'category': category, 'product': product, 'photos': photos})
