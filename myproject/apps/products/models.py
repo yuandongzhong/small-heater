@@ -36,6 +36,12 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(blank=True, null=True)
 
+    @classmethod
+    def get_cover_photo(cls, model_number):
+        product = cls.objects.get(model_number=model_number)
+        cover_photo = product.photos.all()[0]
+        return cover_photo
+
     def __str__(self):
         return self.title
 
@@ -51,4 +57,4 @@ class ProductPhoto(models.Model):
     created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.product.model_number
+        return self.image_file.name
