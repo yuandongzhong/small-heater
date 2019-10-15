@@ -10,25 +10,19 @@
 <div class="row my-3">
   {% for category in categories %}
     <div class="col-sm-4 my-2">
-      <div class="card" style="height: 180px">
+      <div class="card" style="height: 180px;">
         <div class="card-body" style="padding: 10px;">
-          <div class="row">
-              <div class="col">
-                <p class="float-left mt-2">{{ category.title }}</p>
-                <div class="dropdown float-right">
-                  <a class="btn btn-outline-light btn-sm dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-bars"></i>
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="#">Delete</a>
-                  </div>
-                </div>
-              </div>
-          </div>
-          <div class="row my-3">
-            <div class="col text-center">
-              <h1>{{ category.number_of_products }}</h1>
+          <a class="mt-2 stretched-link float-left" href="#">{{ category.title }}</a>
+          <div class="dropdown float-right" style="z-index: 10;">
+            <a class="btn btn-outline-light btn-sm dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-bars"></i>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <a class="dropdown-item" href="#">Delete</a>
             </div>
+          </div>
+          <div class="mt-5 d-flex justify-content-center">
+            <h1>{{ category.number_of_products }}</h1>
           </div>
         </div>
       </div>
