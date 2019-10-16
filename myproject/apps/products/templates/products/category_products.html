@@ -41,22 +41,11 @@
               <td>{{ product.price }}</td>
               <td><button type="button" class="btn btn-outline-dark btn-sm">详细</button></td>
             </tr>
+          {% empty %}
+            <tr>
+              <td colspan="6" class="text-center bg-warning">没有产品</td>
+            </tr>
           {% endfor %}
-          {% comment %} <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td>@mdo</td>
-            <td><button type="button" class="btn btn-outline-dark btn-sm">详细</button></td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-            <td>@mdo</td>
-            <td><button type="button" class="btn btn-outline-dark btn-sm">详细</button></td> {% endcomment %}
-          </tr>
         </tbody>
       </table>
     </div>

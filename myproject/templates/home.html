@@ -1,33 +1,28 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block js %}
+  <script src="{% static 'products/js/products.js' %}"></script>
+{% endblock %}
+
+
 {% block content %}
 <div class="row text-center">
   <div class="col">
     <h4 class="decorated"><span>产品</span></h4>
-    <button type="button" class="btn btn-outline-dark btn-sm float-left">添加</button>
+    <button type="button" class="btn btn-outline-dark btn-sm float-left js-create-category">添加</button>
   </div>
 </div>
-<div class="row my-3">
-  {% for category in categories %}
-    <div class="col-sm-12 col-md-4 my-2">
-      <div class="card" style="height: 180px;">
-        <div class="card-body" style="padding: 10px;">
-          <a class="mt-2 stretched-link float-left" href="{% url 'products:category_products' category.id%}">{{ category.title }}</a>
-          <div class="dropdown float-right" style="z-index: 10;">
-            <a class="btn btn-outline-light btn-sm dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-bars"></i>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item" href="#">Delete</a>
-            </div>
-          </div>
-          <div class="mt-5 d-flex justify-content-center">
-            <h1>{{ category.number_of_products }}</h1>
-          </div>
-        </div>
-      </div>
-    </div>     
-  {% endfor %} 
+<div class="row my-3" id="category-list">
+  {% include 'products/includes/partial_category_list.html' %}
+</div>
+
+<div class="modal fade" id="modal-category">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    </div>
+  </div>
 </div>
 
 {% endblock %}
