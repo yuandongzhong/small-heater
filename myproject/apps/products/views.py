@@ -56,6 +56,25 @@ def category_update(request, category_id):
     return save_category_form(request, form, 'products/includes/partial_category_update.html')
 
 
+def category_delete(request, category_id):
+    category = get_object_or_404(Category, pk=category_id)
+    data = dict()
+    if request.method == 'POST':
+        category.delete()
+        data['form_is_valid'] = True
+        categories = Category.objects.order_by('-created_at').annotate(
+            number_of_products=Count('products'))
+        data['html_category_list'] = render_to_string('products/includes/partial_category_list.html', {
+            'categories': categories
+        })
+    else:
+        context = {'category': category}
+        data['html_form'] = render_to_string('products/includes/partial_category_delete.html',
+                                             context,
+                                             request=request)
+    return JsonResponse(data)
+
+
 def category_photos(request, category_id):
     category = get_object_or_404(Category, pk=category_id)
     products = category.products.all()

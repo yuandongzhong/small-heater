@@ -41,4 +41,9 @@ $(function () {
   // Update category
   $("#category-list").on("click", ".js-update-category", loadForm)
   $("#modal-category").on("submit", ".js-category-update-form", saveForm);
+
+  // Delete category
+  $("#category-list").on("click", ".js-delete-category", loadForm)
+  $("#modal-category").on("submit", ".js-category-delete-form", saveForm);
+
 });
