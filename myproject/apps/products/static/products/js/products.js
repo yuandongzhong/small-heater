@@ -1,8 +1,9 @@
 $(function () {
 
-  $(".js-create-category").click(function () {
+  var loadForm = function () {
+    var btn = $(this);
     $.ajax({
-      url: '/products/categories/create/',
+      url: btn.attr("data-url"),
       type: 'get',
       dataType: 'json',
       beforeSend: function () {
@@ -12,9 +13,9 @@ $(function () {
         $('#modal-category .modal-content').html(data.html_form);
       }
     });
-  });
+  };
 
-  $("#modal-category").on("submit", ".js-category-create-form", function () {
+  var saveForm = function () {
     var form = $(this);
     $.ajax({
       url: form.attr("action"),
@@ -31,6 +32,13 @@ $(function () {
       }
     });
     return false;
-  });
+  }
 
+  // Create category
+  $(".js-create-category").click(loadForm);
+  $("#modal-category").on("submit", ".js-category-create-form", saveForm);
+
+  // Update category
+  $("#category-list").on("click", ".js-update-category", loadForm)
+  $("#modal-category").on("submit", ".js-category-update-form", saveForm);
 });

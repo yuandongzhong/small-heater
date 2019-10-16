@@ -7,6 +7,8 @@ app_name = "products"
 urlpatterns = [
     path('categories/create/',
          views.category_create, name='category_create'),
+    path('categories/<int:category_id>/update/',
+         views.category_update, name='category_update'),
     path('categories/<int:category_id>/',
          views.category_products, name='category_products'),
     path('categories/<int:category_id>/photos/',

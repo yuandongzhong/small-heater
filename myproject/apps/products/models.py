@@ -4,6 +4,7 @@ from django.db import models
 class Category(models.Model):
     title = models.CharField(max_length=30, unique=True)
     description = models.CharField(max_length=100, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = 'category'

@@ -8,7 +8,7 @@ from .models import Category, Product
 
 
 def home(request):
-    categories = Category.objects.annotate(
+    categories = Category.objects.order_by('-created_at').annotate(
         number_of_products=Count('products'))
     return render(request, 'home.html', {'categories': categories})
 
@@ -19,15 +19,13 @@ def category_products(request, category_id):
     return render(request, 'products/category_products.html', {'category': category, 'products': products})
 
 
-def category_create(request):
+def save_category_form(request, form, template_name):
     data = dict()
-
     if request.method == 'POST':
-        form = CategoryForm(request.POST)
         if form.is_valid():
             form.save()
             data['form_is_valid'] = True
-            categories = Category.objects.annotate(
+            categories = Category.objects.order_by('-created_at').annotate(
                 number_of_products=Count('products'))
             data['html_category_list'] = render_to_string(
                 'products/includes/partial_category_list.html', {
@@ -35,15 +33,27 @@ def category_create(request):
                 })
         else:
             data['form_is_valid'] = False
-    else:
-        form = CategoryForm()
-
     context = {'form': form}
     data['html_form'] = render_to_string(
-        'products/includes/partial_category_create.html',
-        context,
-        request=request)
+        template_name, context, request=request)
     return JsonResponse(data)
+
+
+def category_create(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+    else:
+        form = CategoryForm()
+    return save_category_form(request, form, 'products/includes/partial_category_create.html')
+
+
+def category_update(request, category_id):
+    category = get_object_or_404(Category, pk=category_id)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=category)
+    else:
+        form = CategoryForm(instance=category)
+    return save_category_form(request, form, 'products/includes/partial_category_update.html')
 
 
 def category_photos(request, category_id):
