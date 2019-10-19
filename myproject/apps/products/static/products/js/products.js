@@ -7,10 +7,10 @@ $(function () {
       type: 'get',
       dataType: 'json',
       beforeSend: function () {
-        $('#modal-category').modal("show");
+        $('#modal-product').modal("show");
       },
       success: function (data) {
-        $('#modal-category .modal-content').html(data.html_form);
+        $('modal-product, .modal-content').html(data.html_form);
       }
     });
   };
@@ -24,26 +24,22 @@ $(function () {
       dataType: 'json',
       success: function (data) {
         if (data.form_is_valid) {
-          $('#category-list').html(data.html_category_list);
-          $("#modal-category").modal("hide");
+          $("#product-list").html(data.html_product_list);
+          $("#modal-product").modal("hide");
         } else {
-          $("#modal-category .modal-content").html(data.html_form);
+          $("#modal-product .modal-content").html(data.html_form);
         }
       }
     });
     return false;
   }
 
-  // Create category
-  $(".js-create-category").click(loadForm);
-  $("#modal-category").on("submit", ".js-category-create-form", saveForm);
+  // Create product
+  $(".js-create-product").click(loadForm);
+  $("#modal-category").on("submit", ".js-product-create-form", saveForm);
 
-  // Update category
-  $("#category-list").on("click", ".js-update-category", loadForm)
-  $("#modal-category").on("submit", ".js-category-update-form", saveForm);
+  // Update product
 
-  // Delete category
-  $("#category-list").on("click", ".js-delete-category", loadForm)
-  $("#modal-category").on("submit", ".js-category-delete-form", saveForm);
+  // Delete product
 
-});
+})

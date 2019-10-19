@@ -1,4 +1,8 @@
+import os
+
 from django.db import models
+
+from myproject.settings import STATIC_URL
 
 
 class Category(models.Model):
@@ -43,8 +47,14 @@ class Product(models.Model):
     @classmethod
     def get_cover_photo(cls, model_number):
         product = cls.objects.get(model_number=model_number)
-        cover_photo = product.photos.all()[0]
+        try:
+            cover_photo = product.photos.all()[0]
+        except:
+            cover_photo = None
         return cover_photo
+
+    def get_default_cover_url(self):
+        return os.path.join(STATIC_URL, 'products/img/default_cover.png ')
 
     def __str__(self):
         return self.title
@@ -57,7 +67,7 @@ def photo_directory_path(instance, filename):
 class ProductPhoto(models.Model):
     product = models.ForeignKey(
         Product, related_name="photos", on_delete=models.CASCADE)
-    image_file = models.FileField(upload_to=photo_directory_path)
+    image_file = models.ImageField(upload_to=photo_directory_path)
     created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):

@@ -17,4 +17,6 @@ urlpatterns = [
          views.category_photos, name='category_photos'),
     path('categories/<int:category_id>/photos/<int:product_id>/',
          views.product_photos, name='product_photos'),
+    path('categories/<int:category_id>/create/',
+         views.product_create, name='product_create'),
 ]
