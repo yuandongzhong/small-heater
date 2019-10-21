@@ -1,22 +1,40 @@
 from django.urls import path
 
-from . import views
+from .views import categories, photos, products
 
 app_name = "products"
 
+
+'''
+Categories
+'''
 urlpatterns = [
     path('categories/create/',
-         views.category_create, name='category_create'),
+         categories.category_create, name='category_create'),
     path('categories/<int:category_id>/update/',
-         views.category_update, name='category_update'),
+         categories.category_update, name='category_update'),
     path('categories/<int:category_id>/delete/',
-         views.category_delete, name='category_delete'),
+         categories.category_delete, name='category_delete'),
+]
+
+'''
+Products
+'''
+urlpatterns += [
     path('categories/<int:category_id>/',
-         views.category_products, name='category_products'),
-    path('categories/<int:category_id>/photos/',
-         views.category_photos, name='category_photos'),
-    path('categories/<int:category_id>/photos/<int:product_id>/',
-         views.product_photos, name='product_photos'),
+         products.category_products, name='category_products'),
     path('categories/<int:category_id>/create/',
-         views.product_create, name='product_create'),
+         products.product_create, name='product_create'),
+    path('categories/<int:category_id>/<int:product_id>/update/',
+         products.product_create, name='product_update'),
+]
+
+'''
+Photos
+'''
+urlpatterns += [
+    path('categories/<int:category_id>/photos/',
+         photos.category_photos, name='category_photos'),
+    path('categories/<int:category_id>/photos/<int:product_id>/',
+         photos.product_photos, name='product_photos'),
 ]
