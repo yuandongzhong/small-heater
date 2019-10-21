@@ -36,7 +36,7 @@ $(function () {
 
   // Create product
   $(".js-create-product").click(loadForm);
-  $("#modal-category").on("submit", ".js-product-create-form", saveForm);
+  $("#modal-product").on("submit", ".js-product-create-form", saveForm);
 
   // Update product
 

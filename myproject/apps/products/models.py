@@ -21,7 +21,8 @@ class Category(models.Model):
 class Product(models.Model):
     title = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=500, blank=True)
-    price = models.DecimalField(max_digits=6, decimal_places=2, blank=True)
+    price = models.DecimalField(
+        max_digits=6, decimal_places=2, blank=True, null=True)
     color = models.CharField(max_length=30, blank=True)
     model_number = models.CharField(max_length=30, unique=True)
     category = models.ForeignKey(

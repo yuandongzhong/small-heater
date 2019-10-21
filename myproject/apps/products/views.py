@@ -1,3 +1,4 @@
+from django import forms
 from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
@@ -16,7 +17,7 @@ def home(request):
 
 def category_products(request, category_id):
     category = get_object_or_404(Category, pk=category_id)
-    products = category.products.all()
+    products = category.products.all().order_by('-updated_at')
     return render(request, 'products/category_products.html', {'category': category, 'products': products})
 
 
@@ -89,18 +90,23 @@ def product_photos(request, category_id, product_id):
     return render(request, 'products/product_photos.html', {'category': category, 'product': product, 'photos': photos})
 
 
-def save_product_form(request, category_id, form, template_name):
+def save_product_form(request, category_id, form, template_name, is_category_hidden):
     data = dict()
     if request.method == 'POST':
         if form.is_valid():
-            product = form.save()
+            category = get_object_or_404(Category, pk=category_id)
+            product = form.save(commit=False)
+            if is_category_hidden:
+                product.category = category
             product.updated_at = timezone.now()
             product.save()
             data['form_is_valid'] = True
-            products = Product.objects.order_by('-updated_at')
+            products = category.products.all().order_by('-updated_at')
+            # products = Product.objects.filter(
+            #     category=category).order_by('-updated_at')
             data['html_product_list'] = render_to_string(
                 'products/includes/partial_product_list.html', {
-                    'categories': products
+                    'products': products
                 })
         else:
             data['form_is_valid'] = False
@@ -111,8 +117,14 @@ def save_product_form(request, category_id, form, template_name):
 
 
 def product_create(request, category_id):
+    request_path = request.get_full_path()
     if request.method == 'POST':
         form = ProductForm(request.POST)
     else:
         form = ProductForm()
-    return save_product_form(request, category_id, form, 'products/includes/partial_product_create.html')
+    form.fields['category'].widget = forms.HiddenInput()
+    return save_product_form(request,
+                             category_id,
+                             form,
+                             'products/includes/partial_product_create.html',
+                             is_category_hidden=True)
