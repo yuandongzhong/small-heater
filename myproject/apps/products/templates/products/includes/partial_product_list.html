@@ -8,8 +8,8 @@
     <td>{{ product.color }}</td>
     <td>{{ product.price }}</td>
     <td>
-      <button type="button" class="js-delete-product btn btn-outline-danger btn-sm">删除</button>
-<button type="button" class="js-update-product btn btn-outline-dark btn-sm">编辑</button>
+      <button type="button" class="js-delete-product btn btn-outline-danger btn-sm" data-url="#">删除</button>
+      <button type="button" class="js-update-product btn btn-outline-dark btn-sm" data-url="{% url 'products:product_update' category.id product.id %}">编辑</button>
     </td>
   </tr>
 {% empty %}

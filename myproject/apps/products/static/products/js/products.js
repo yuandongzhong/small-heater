@@ -39,6 +39,8 @@ $(function () {
   $("#modal-product").on("submit", ".js-product-create-form", saveForm);
 
   // Update product
+  $("#product-list").on("click", ".js-update-product", loadForm)
+  $("#modal-product").on("submit", ".js-product-update-form", saveForm);
 
   // Delete product
 

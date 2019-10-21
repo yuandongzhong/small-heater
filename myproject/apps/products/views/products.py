@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from django.utils import timezone
 
 from ..forms import ProductForm
-from ..models import Category
+from ..models import Category, Product
 
 
 def category_products(request, category_id):
@@ -30,11 +30,13 @@ def save_product_form(request, category_id, form, template_name, is_category_hid
             #     category=category).order_by('-updated_at')
             data['html_product_list'] = render_to_string(
                 'products/includes/partial_product_list.html', {
+                    'category': category,
                     'products': products
                 })
         else:
             data['form_is_valid'] = False
-    context = {'category_id': category_id, 'form': form}
+    context = {'category_id': category_id,
+               'form': form}
     data['html_form'] = render_to_string(
         template_name, context, request=request)
     return JsonResponse(data)
@@ -52,3 +54,16 @@ def product_create(request, category_id):
                              form,
                              'products/includes/partial_product_create.html',
                              is_category_hidden=True)
+
+
+def product_update(request, category_id, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
+    else:
+        form = ProductForm(instance=product)
+    return save_product_form(request,
+                             category_id,
+                             form,
+                             'products/includes/partial_product_update.html',
+                             is_category_hidden=False)
