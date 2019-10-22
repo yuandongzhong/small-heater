@@ -67,9 +67,13 @@ def photo_directory_path(instance, filename):
 
 class ProductPhoto(models.Model):
     product = models.ForeignKey(
-        Product, related_name="photos", on_delete=models.CASCADE)
+        Product, related_name="photos", on_delete=models.CASCADE, blank=True)
     image_file = models.ImageField(upload_to=photo_directory_path)
     created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.image_file.name
+
+    class Meta:
+        verbose_name = 'photo'
+        verbose_name_plural = 'photos'

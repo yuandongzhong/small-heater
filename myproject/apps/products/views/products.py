@@ -43,7 +43,6 @@ def save_product_form(request, category_id, form, template_name, is_category_hid
 
 
 def product_create(request, category_id):
-    request_path = request.get_full_path()
     if request.method == 'POST':
         form = ProductForm(request.POST)
     else:

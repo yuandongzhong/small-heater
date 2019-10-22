@@ -1,30 +1,78 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% load static %}
 
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb bg-transparent">
-    <li class="breadcrumb-item"><a href="{% url 'home' %}">主页</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'products:category_photos' category.id %}">{{ category.title }}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{ product.model_number }}</li>
-  </ol>
-</nav>
+{% block css %}
+<link href="{% static 'css/cropper.min.css' %}" rel="stylesheet">
+{% endblock %}
 
-<div class="card">
-  <div class="card-body">
-    <button type="button" class="btn btn-outline-dark btn-sm float-right">新增图片</button>
-    <h4>{{ product.model_number }}</h4>
-    <hr>
-      <div class="row">
-      {% for photo in photos %}
-        <div class="col-sm-4 col-md-3 my-3 mx-2 text-center">
-          <a href="#">
-            <img border="0" alt="photo album" src="{{ photo.image_file.url }}" width="120" height="120">
-          </a>
+{% block js %}
+<script src="{% static 'js/cropper.min.js' %}"></script>
+<script src="{% static 'products/js/photos.js' %}"></script>
+{% endblock %}
+
+{% block content %} 
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">主页</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'products:category_photos' category.id %}">{{ category.title }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ product.model_number }}</li>
+    </ol>
+  </nav>
+
+  <div class="card">
+    <div class="card-body">
+      <h4>{{ product.model_number }}</h4>
+      <hr>
+      <div class="row my-5">
+        <div class="col">
+          <!-- FORM TO UPLOAD THE IMAGES -->
+          <form method="post" enctype="multipart/form-data" id="formUpload">
+            {% csrf_token %}
+            {{ form }}
+          </form>
         </div>
-      {% endfor %}
+      </div>
+      <div class="row" id="photo_list">
+        {% for photo in photos %}
+          <div class="col-sm-4 col-md-3 my-3 text-center">
+            <a href="#">
+              <img border="0" alt="photo album" src="{{ photo.image_file.url }}" class="img-thumbnail" width="120" height="120">
+            </a>
+          </div>  
+        {% empty %}
+          {% comment %} <h3 class="col text-center my-4">没有图片</h3> {% endcomment %}
+        {% endfor %}
+      </div>
     </div>
   </div>
-</div>
 
+  <!-- MODAL TO CROP THE IMAGE -->
+  <div class="modal fade" id="modalCrop">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">裁剪产品图片</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="padding: 0px;">
+          <img src="" id="image" style="max-width: 100%;">
+        </div>
+        <div class="modal-footer">
+          <div class="btn-group mr-auto" role="group">
+            <button type="button" class="btn btn-outline-dark btn-sm js-zoom-in">
+              <i class="fas fa-search-minus"></i> 缩小 
+            </button>
+            <button type="button" class="btn btn-outline-dark btn-sm js-zoom-out">
+              <i class="fas fa-search-plus"></i> 放大
+            </button>
+          </div>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary js-crop-and-upload">上载 </button>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

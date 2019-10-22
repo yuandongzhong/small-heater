@@ -1,6 +1,7 @@
 from django import forms
+from PIL import Image
 
-from .models import Category, Product
+from .models import Category, Product, ProductPhoto
 
 
 class CategoryForm(forms.ModelForm):
@@ -57,3 +58,31 @@ class ProductForm(forms.ModelForm):
             'cap_40gp': '40GP容量',
             'cap_40hq': '40HQ容量',
             'is_available': '是否在售'}
+
+
+class PhotoForm(forms.ModelForm):
+    x = forms.FloatField(widget=forms.HiddenInput())
+    y = forms.FloatField(widget=forms.HiddenInput())
+    width = forms.FloatField(widget=forms.HiddenInput())
+    height = forms.FloatField(widget=forms.HiddenInput())
+
+    class Meta:
+        model = ProductPhoto
+        fields = ('image_file', 'x', 'y', 'width', 'height', )
+        labels = {
+            'image_file': '产品图片',
+        }
+
+    def save(self, commit=False):
+        photo = super(PhotoForm, self).save(commit=commit)
+
+        x = self.cleaned_data.get('x')
+        y = self.cleaned_data.get('y')
+        w = self.cleaned_data.get('width')
+        h = self.cleaned_data.get('height')
+
+        image = Image.open(photo.image_file)
+        cropped_image = image.crop((x, y, w+x, h+y))
+        resized_image = cropped_image.resize((600, 600), Image.ANTIALIAS)
+        resized_image.save(photo.image_file.path)
+        return photo
