@@ -33,3 +33,10 @@ body {
 .decorated>span:after {
   left: 100%;
 }
+
+
+/* align table datas vertically */
+
+.table>tbody>tr>td {
+  vertical-align: middle;
+}

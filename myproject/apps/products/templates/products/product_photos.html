@@ -37,7 +37,7 @@
         {% for photo in photos %}
           <div class="col-sm-4 col-md-3 my-3 text-center">
             <a href="#">
-              <img border="0" alt="photo album" src="{{ photo.image_file.url }}" class="img-thumbnail" width="120" height="120">
+              <img class="rounded img-thumbnail" border="0" alt="photo album" src="{{ photo.image_file.url }}" width="120" height="120">
             </a>
           </div>  
         {% empty %}

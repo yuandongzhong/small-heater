@@ -67,7 +67,7 @@ def photo_directory_path(instance, filename):
 
 class ProductPhoto(models.Model):
     product = models.ForeignKey(
-        Product, related_name="photos", on_delete=models.CASCADE, blank=True)
+        Product, related_name="photos", on_delete=models.CASCADE, null=True, blank=True)
     image_file = models.ImageField(upload_to=photo_directory_path)
     created_at = models.DateField(auto_now_add=True)
 

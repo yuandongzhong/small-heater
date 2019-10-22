@@ -26,8 +26,6 @@ def save_product_form(request, category_id, form, template_name, is_category_hid
             product.save()
             data['form_is_valid'] = True
             products = category.products.all().order_by('-updated_at')
-            # products = Product.objects.filter(
-            #     category=category).order_by('-updated_at')
             data['html_product_list'] = render_to_string(
                 'products/includes/partial_product_list.html', {
                     'category': category,
