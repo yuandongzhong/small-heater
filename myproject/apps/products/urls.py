@@ -27,6 +27,8 @@ urlpatterns += [
          products.product_create, name='product_create'),
     path('categories/<int:category_id>/<int:product_id>/update/',
          products.product_update, name='product_update'),
+    path('categories/<int:category_id>/<int:product_id>/delete/',
+         products.product_delete, name='product_delete'),
 ]
 
 '''

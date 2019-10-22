@@ -43,20 +43,6 @@
         </thead>
         <tbody id="product-list">
           {% include 'products/includes/partial_product_list.html' %}
-          {% comment %} {% for product in products %}
-            <tr>
-              <td><img border="0" alt="{{ product.model_number }}" src="{% get_cover_photo_url product product.model_number %}" width="40" height="40"></td>
-              <td>{{ product.model_number }}</td>
-              <td>{{ product.title }}</td>
-              <td>{{ product.color }}</td>
-              <td>{{ product.price }}</td>
-              <td><button type="button" class="btn btn-outline-dark btn-sm">详细</button></td>
-            </tr>
-          {% empty %}
-            <tr>
-              <td colspan="6" class="text-center bg-warning">没有产品</td>
-            </tr>
-          {% endfor %} {% endcomment %}
         </tbody>
       </table>
     </div>

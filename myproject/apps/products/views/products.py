@@ -67,3 +67,23 @@ def product_update(request, category_id, product_id):
                              form,
                              'products/includes/partial_product_update.html',
                              is_category_hidden=False)
+
+
+def product_delete(request, category_id, product_id):
+    category = get_object_or_404(Category, pk=category_id)
+    product = get_object_or_404(Product, pk=product_id)
+    data = dict()
+    if request.method == 'POST':
+        product.delete()
+        data['form_is_valid'] = True
+        products = category.products.all().order_by('-updated_at')
+        data['html_product_list'] = render_to_string('products/includes/partial_product_list.html', {
+            'category': category,
+            'products': products
+        })
+    else:
+        context = {'category': category, 'product': product}
+        data['html_form'] = render_to_string('products/includes/partial_product_delete.html',
+                                             context,
+                                             request=request)
+    return JsonResponse(data)
