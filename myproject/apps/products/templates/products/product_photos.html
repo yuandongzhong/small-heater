@@ -25,9 +25,18 @@
 
   <div class="card" id="photo-container">
     <div class="card-body">
-      <button type="button" class="js-delete-photo btn btn-outline-danger btn-sm float-right" data-url="{% url 'products:photo_delete' category.id product.id %}">
-        删除
+      <button type="button" class="js-edit-photo btn btn-outline-dark btn float-right" data-url="{% url 'products:photo_delete' category.id product.id %}">
+          编辑
       </button>
+      <div class="delete-button-group float-right" style="display: None;">
+        <button type="button" class="js-delete-photo-cancel btn btn-outline-dark btn-sm" data-url="{% url 'products:photo_delete' category.id product.id %}">
+          取消
+        </button>
+        <button type="button" class="js-delete-photo btn btn-danger btn-sm" data-url="{% url 'products:photo_delete' category.id product.id %}" disabled>
+          删除
+        </button>
+      </div>
+
       <h4>{{ product.model_number }}</h4>
       <hr>
       <div class="row my-5">
@@ -80,4 +89,5 @@
       </div>
     </div>
   </div>
+
 {% endblock %}
