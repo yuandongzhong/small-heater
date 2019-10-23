@@ -4,11 +4,14 @@
 
 {% block css %}
 <link href="{% static 'css/cropper.min.css' %}" rel="stylesheet">
+<link href="{% static 'products/css/image-checkbox.css' %}" rel="stylesheet">
+
 {% endblock %}
 
 {% block js %}
 <script src="{% static 'js/cropper.min.js' %}"></script>
 <script src="{% static 'products/js/photos.js' %}"></script>
+<script src="{% static 'products/js/image-checkbox.js' %}"></script>
 {% endblock %}
 
 {% block content %} 
@@ -20,8 +23,11 @@
     </ol>
   </nav>
 
-  <div class="card">
+  <div class="card" id="photo-container">
     <div class="card-body">
+      <button type="button" class="js-delete-photo btn btn-outline-danger btn-sm float-right" data-url="{% url 'products:photo_delete' category.id product.id %}">
+        删除
+      </button>
       <h4>{{ product.model_number }}</h4>
       <hr>
       <div class="row my-5">
@@ -33,16 +39,8 @@
           </form>
         </div>
       </div>
-      <div class="row" id="photo_list">
-        {% for photo in photos %}
-          <div class="col-sm-4 col-md-3 my-3 text-center">
-            <a href="#">
-              <img class="rounded img-thumbnail" border="0" alt="photo album" src="{{ photo.image_file.url }}" width="120" height="120">
-            </a>
-          </div>  
-        {% empty %}
-          {% comment %} <h3 class="col text-center my-4">没有图片</h3> {% endcomment %}
-        {% endfor %}
+      <div class="row" id="photo-list">
+        {% include 'products/includes/partial_photo_list.html' %}
       </div>
     </div>
   </div>
@@ -72,6 +70,13 @@
           <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
           <button type="button" class="btn btn-primary js-crop-and-upload">上载 </button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal-photo">
+    <div class="modal-dialog">
+      <div class="modal-content">
       </div>
     </div>
   </div>

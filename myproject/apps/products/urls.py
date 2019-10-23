@@ -39,4 +39,6 @@ urlpatterns += [
          photos.category_photos, name='category_photos'),
     path('categories/<int:category_id>/photos/<int:product_id>/',
          photos.product_photos, name='product_photos'),
+    path('categories/<int:category_id>/photos/<int:product_id>/delete',
+         photos.photo_delete, name='photo_delete'),
 ]
