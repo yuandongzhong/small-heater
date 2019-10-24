@@ -1,5 +1,5 @@
 {% for photo in photos %}
-  <div class="col-sm-4 col-md-3 my-3 text-center">
+  <div class="col-sm-4 col-md-3 my-2 text-center">
     <label class="image-checkbox">
       <img class="rounded img-thumbnail img-responsive" alt="product-photo" src="{{ photo.image_file.url }}" width="120" height="120">
       <input type="checkbox" name="image[]" value="{{ photo.id }}" disabled/>

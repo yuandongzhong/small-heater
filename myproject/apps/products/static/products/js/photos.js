@@ -1,5 +1,10 @@
 $(function () {
 
+
+  $(".js-upload-photos").click(function () {
+    $("#id_image_file").click();
+  });
+
   /* SCRIPT TO OPEN THE MODAL WITH THE PREVIEW */
   $("#id_image_file").change(function () {
     if (this.files && this.files[0]) {

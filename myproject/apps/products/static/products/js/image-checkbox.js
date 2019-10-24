@@ -41,22 +41,28 @@ $(function () {
       $(this).find('input[type="checkbox"]').first().prop('disabled', false);
     });
     activateCheckbox();
+    $("button.js-upload-photos").hide();
   });
 
   // cancel button
   $(".js-delete-photo-cancel").on("click", function (e) {
+    cancelDeletion();
+  });
+
+  var cancelDeletion = function () {
     $(".delete-button-group").hide();
     $(".js-edit-photo").show();
+    $('button.js-delete-photo').prop('disabled', true);
+    // Remove click listener from clickbox
+    $(".image-checkbox").off('click');
+    $("button.js-upload-photos").show();
     $(".image-checkbox").each(function () {
       $(this).find('input[type="checkbox"]').first().prop('disabled', true);
       $(this).removeClass('image-checkbox-checked');
       var $checkbox = $(this).find('input[type="checkbox"]');
       $checkbox.prop("checked", false)
-      $('button.js-delete-photo').prop('disabled', true);
     });
-    $(".image-checkbox").off('click');
-  });
-
+  }
 
   // Get photo id from selected checkboxes
   var getPhotoList = function () {
@@ -102,8 +108,7 @@ $(function () {
         if (data.success) {
           $("#photo-list").html(data.html_photo_list);
           $("#modal-photo").modal("hide");
-          $('button.js-delete-photo').prop('disabled', true);
-          activateCheckbox();
+          cancelDeletion();
         }
       }
     });
