@@ -1,5 +1,8 @@
 $(function () {
 
+  /*
+    Image upload
+  */
 
   $(".js-upload-photos").click(function () {
     $("#id_image_file").click();
@@ -54,6 +57,162 @@ $(function () {
     $("#id_height").val(cropData["height"]);
     $("#id_width").val(cropData["width"]);
     $("#formUpload").submit();
+  });
+
+
+
+  /*
+    Image preview
+  */
+
+  var activatePhotoPreview = function () {
+    $(".image-checkbox").each(function () {
+      var checkbox = $(this);
+      checkbox.find('img').first().on("click", function () {
+        $('#imagepreview').attr('src', $(this).attr('src'));
+        $('#modal-photo-preview').modal('show');
+      });
+    });
+  }
+
+  var deactivatePhotoPreview = function () {
+    $(".image-checkbox").each(function () {
+      var checkbox = $(this);
+      checkbox.find('img').first().off('click');
+    });
+  }
+
+  // Init the state when load
+  activatePhotoPreview();
+
+
+
+  /*
+  Image checkbox
+  */
+
+  var selectionCount = function () {
+    return $.find('input[type="checkbox"]:checked').length
+  }
+
+  // init the check state from the input
+  $(".image-checkbox").each(function () {
+    if ($(this).find('input[type="checkbox"]').first().attr("checked")) {
+      $(this).addClass('image-checkbox-checked');
+    } else {
+      $(this).removeClass('image-checkbox-checked');
+    }
+  });
+
+  var activateCheckbox = function () {
+    // sync the check state to the input
+    $(".image-checkbox").on("click", function (e) {
+      $(this).toggleClass('image-checkbox-checked');
+      var $checkbox = $(this).find('input[type="checkbox"]');
+      $checkbox.prop("checked", !$checkbox.prop("checked"))
+
+      if (selectionCount() > 0) {
+        // activate delete button
+        $('button.js-delete-photo').prop('disabled', false);
+      } else {
+        // disable delete button
+        $('button.js-delete-photo').prop('disabled', true);
+      }
+      e.preventDefault();
+    });
+  }
+
+  // Click event for photo edit button
+  $(".js-edit-photo").on("click", function (e) {
+    var editButton = $(this);
+    editButton.hide();
+    $(".delete-button-group").show();
+    $(".image-checkbox").each(function () {
+      $(this).find('input[type="checkbox"]').first().prop('disabled', false);
+    });
+    activateCheckbox();
+    deactivatePhotoPreview();
+    $("button.js-upload-photos").hide();
+  });
+
+  // Click event for cancel button
+  $(".js-delete-photo-cancel").on("click", function (e) {
+    cancelDeletion();
+  });
+
+  var cancelDeletion = function () {
+    $(".delete-button-group").hide();
+    $(".js-edit-photo").show();
+    $('button.js-delete-photo').prop('disabled', true);
+    // Remove click listener from clickbox
+    $(".image-checkbox").off('click');
+    // Show the upload button again
+    $("button.js-upload-photos").show();
+    $(".image-checkbox").each(function () {
+      // Disable the checkbox
+      $(this).find('input[type="checkbox"]').first().prop('disabled', true);
+      // Remove the .image-checkbox-checked class
+      $(this).removeClass('image-checkbox-checked');
+      var $checkbox = $(this).find('input[type="checkbox"]');
+      // Deselect all checked image
+      $checkbox.prop("checked", false)
+      // Assign the click event for photo preview again
+      $(this).find('img').first().on("click", function () {
+        $('#imagepreview').attr('src', $(this).attr('src'));
+        $('#modal-photo-preview').modal('show');
+      });
+    });
+  }
+
+  // Get photo id from selected checkboxes
+  var getPhotoList = function () {
+    var photos = [];
+    $.each($("input[type='checkbox']:checked"), function () {
+      photos.push($(this).val());
+    });
+    return photos;
+  }
+
+  // Activate photo deletion confirmation
+  $("#photo-container").on("click", ".js-delete-photo", function () {
+    var btn = $(this);
+    $.ajax({
+      url: btn.attr("data-url"),
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+        $('#modal-photo').modal("show");
+      },
+      success: function (data) {
+        $('#modal-photo').find('.modal-content').first().html(data.html_form);
+      }
+    });
+  });
+
+
+  // Confirm the deletion
+  $("#modal-photo").on("submit", ".js-photo-delete-form", function () {
+    var form = $(this);
+    var csrfmiddlewaretoken = document.getElementsByName('csrfmiddlewaretoken')[0].value
+    $.ajax({
+      url: form.attr("action"),
+      // data: form.serialize(),
+      data: {
+        'photos[]': getPhotoList(),
+        'csrfmiddlewaretoken': csrfmiddlewaretoken
+      },
+      type: form.attr("method"),
+      dataType: 'json',
+      beforeSend: function () {},
+      success: function (data) {
+        if (data.success) {
+          $("#photo-list").html(data.html_photo_list);
+          $("#modal-photo").modal("hide");
+          cancelDeletion();
+        }
+      }
+    });
+    return false;
   });
 
 });

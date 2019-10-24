@@ -21,15 +21,16 @@
     {% include 'products/_header.html' with active='category_products' %}
 
     <div class="card-body">
-      <div class="my-4">
+      <div class="my-2">
         <button type="button" 
-                class="js-create-product btn btn-outline-dark btn-sm mr-2"
+                class="js-create-product btn btn-outline-dark mr-2"
                 data-url="{% url 'products:product_create' category.id%}">
           新增型号
         </button>
         {% comment %} <button type="button" class="btn btn-outline-dark btn-sm mr-2">导出</button>
         <button type="button" class="btn btn-outline-dark btn-sm">导入</button> {% endcomment %}
       </div>
+      <br>
       <table class="table">
         <thead class="thead-dark">
           <tr>
