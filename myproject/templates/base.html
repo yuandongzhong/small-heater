@@ -12,19 +12,50 @@
   </head>
   <body>
     {% block body %}
-      <nav class="navbar navbar-light bg-light navbar-expand mx-auto">
-        <ul class="navbar-nav mx-auto">
-          <a class="nav-item navbar-brand" href="{% url 'home' %}">小火炉营销系统</a>
-        </ul>
-      </nav>
-      <div class="container my-4">
-        <div class="row mt-5">
+      <div class="container-fluid">
+        <div class="row bg-light">
           <div class="col-2"></div>
           <div class="col-8">
+            <ul class="nav justify-content-center">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' %}">
+                  <span class="nav-icon fas fa-home"></span>
+                  主页
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#">
+                  <span class="nav-icon fas fa-dollar-sign"></span>
+                  报价
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#">
+                  <span class="nav-icon far fa-file"></span>
+                  文件共享
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-2">
+            <ul class="nav justify-content-end">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'accounts:logout' %}">
+                  <span class="nav-icon fas fa-sign-out-alt"></span>
+                  登出
+                </a>
+              </li>
+            </ul>
+          </div>  
+        </div>
+        <br>
+        <div class="row mt-4">
+          <div class="col-3"></div>
+          <div class="col-6">
             {% block content%}
             {% endblock %}
           </div>
-          <div class="col-2"></div>
+          <div class="col-3"></div>
         </div>
       </div>
     {% endblock body %}
