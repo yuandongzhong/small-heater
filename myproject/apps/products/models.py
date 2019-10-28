@@ -63,7 +63,7 @@ class Product(models.Model):
         return os.path.join(STATIC_URL, 'products/img/default_cover.png ')
 
     def __str__(self):
-        return self.title
+        return self.model_number
 
 
 def photo_directory_path(instance, filename):
