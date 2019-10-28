@@ -11,25 +11,27 @@
     {% block css %}{% endblock %}
   </head>
   <body>
-    <nav class="navbar navbar-light bg-light navbar-expand mx-auto">
-      <ul class="navbar-nav mx-auto">
-        <a class="nav-item navbar-brand" href="{% url 'home' %}">小火炉营销系统</a>
-      </ul>
-    </nav>
-    <div class="container my-4">
-      <div class="row mt-5">
-        <div class="col-2"></div>
-        <div class="col-8">
-          {% block content%}
-          {% endblock %}
+    {% block body %}
+      <nav class="navbar navbar-light bg-light navbar-expand mx-auto">
+        <ul class="navbar-nav mx-auto">
+          <a class="nav-item navbar-brand" href="{% url 'home' %}">小火炉营销系统</a>
+        </ul>
+      </nav>
+      <div class="container my-4">
+        <div class="row mt-5">
+          <div class="col-2"></div>
+          <div class="col-8">
+            {% block content%}
+            {% endblock %}
+          </div>
+          <div class="col-2"></div>
         </div>
-        <div class="col-2"></div>
       </div>
-    </div>
+    {% endblock body %}
     <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     {% block js %}
-    {% endblock %}
+    {% endblock js %}
   </body>
 </html>

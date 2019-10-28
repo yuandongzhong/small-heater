@@ -23,7 +23,8 @@ from myproject.apps.products.views import categories
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', categories.home, name='home'),
-    path('products/', include('myproject.apps.products.urls'))
+    path('accounts/', include('myproject.apps.accounts.urls')),
+    path('products/', include('myproject.apps.products.urls')),
 ]
 
 if settings.DEBUG:
