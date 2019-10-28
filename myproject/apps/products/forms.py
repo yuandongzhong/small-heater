@@ -73,9 +73,10 @@ class PhotoForm(forms.ModelForm):
             'image_file': '产品图片',
         }
 
-    def save(self, product):
+    def save(self, product, user):
         photo = super(PhotoForm, self).save(commit=False)
         photo.product = product
+        photo.created_by = user
         photo.save()
         x = self.cleaned_data.get('x')
         y = self.cleaned_data.get('y')

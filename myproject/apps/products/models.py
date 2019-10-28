@@ -2,6 +2,7 @@ import os
 
 from django.db import models
 
+from myproject.apps.accounts.models import User
 from myproject.settings import STATIC_URL
 
 
@@ -43,6 +44,10 @@ class Product(models.Model):
     cap_40hq = models.PositiveIntegerField(blank=True, null=True)
     is_available = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        User, related_name="products", on_delete=models.SET_NULL, null=True)
+    updated_by = models.ForeignKey(
+        User, null=True, related_name='+', on_delete=models.SET_NULL)
     updated_at = models.DateTimeField(blank=True, null=True)
 
     @classmethod
@@ -70,6 +75,8 @@ class ProductPhoto(models.Model):
         Product, related_name="photos", on_delete=models.CASCADE, null=True, blank=True)
     image_file = models.ImageField(upload_to=photo_directory_path)
     created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        User, related_name="product_photos", on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.image_file.name

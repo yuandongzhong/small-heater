@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
@@ -7,6 +8,7 @@ from ..forms import CategoryForm
 from ..models import Category, Product
 
 
+@login_required
 def home(request):
     categories = Category.objects.order_by('-created_at').annotate(
         number_of_products=Count('products'))
@@ -33,6 +35,7 @@ def save_category_form(request, form, template_name):
     return JsonResponse(data)
 
 
+@login_required
 def category_create(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
@@ -41,6 +44,7 @@ def category_create(request):
     return save_category_form(request, form, 'products/includes/partial_category_create.html')
 
 
+@login_required
 def category_update(request, category_id):
     category = get_object_or_404(Category, pk=category_id)
     if request.method == 'POST':
@@ -50,6 +54,7 @@ def category_update(request, category_id):
     return save_category_form(request, form, 'products/includes/partial_category_update.html')
 
 
+@login_required
 def category_delete(request, category_id):
     category = get_object_or_404(Category, pk=category_id)
     data = dict()
@@ -67,16 +72,3 @@ def category_delete(request, category_id):
                                              context,
                                              request=request)
     return JsonResponse(data)
-
-
-def category_photos(request, category_id):
-    category = get_object_or_404(Category, pk=category_id)
-    products = category.products.all()
-    return render(request, 'products/category_photos.html', {'category': category, 'products': products})
-
-
-def product_photos(request, category_id, product_id):
-    category = get_object_or_404(Category, pk=category_id)
-    product = get_object_or_404(Product, pk=product_id)
-    photos = product.photos.all()
-    return render(request, 'products/product_photos.html', {'category': category, 'product': product, 'photos': photos})

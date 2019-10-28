@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
@@ -8,6 +9,7 @@ from ..forms import ProductForm
 from ..models import Category, Product
 
 
+@login_required
 def category_products(request, category_id):
     category = get_object_or_404(Category, pk=category_id)
     products = category.products.all().order_by('-updated_at')
@@ -20,9 +22,11 @@ def save_product_form(request, category_id, form, template_name, is_category_hid
         if form.is_valid():
             category = get_object_or_404(Category, pk=category_id)
             product = form.save(commit=False)
-            if is_category_hidden:
+            if is_category_hidden:              # creation mode
                 product.category = category
+                product.created_by = request.user
             product.updated_at = timezone.now()
+            product.updated_by = request.user
             product.save()
             data['form_is_valid'] = True
             products = category.products.all().order_by('-updated_at')
@@ -40,6 +44,7 @@ def save_product_form(request, category_id, form, template_name, is_category_hid
     return JsonResponse(data)
 
 
+@login_required
 def product_create(request, category_id):
     if request.method == 'POST':
         form = ProductForm(request.POST)
@@ -53,6 +58,7 @@ def product_create(request, category_id):
                              is_category_hidden=True)
 
 
+@login_required
 def product_update(request, category_id, product_id):
     product = get_object_or_404(Product, pk=product_id)
     if request.method == 'POST':
@@ -66,6 +72,7 @@ def product_update(request, category_id, product_id):
                              is_category_hidden=False)
 
 
+@login_required
 def product_delete(request, category_id, product_id):
     category = get_object_or_404(Category, pk=category_id)
     product = get_object_or_404(Product, pk=product_id)
